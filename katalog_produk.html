@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produk - Sekaput Adventure</title>
+    <style>
+        /* Reset dan Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            color: #333;
+            line-height: 1.6;
+            padding-top: 80px; /* Untuk header fixed */
+        }
+        
+        /* Header */
+        header {
+            background-color: rgba(255, 255, 255, 0.9);
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            top: 0;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .logo img {
+            height: 50px;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 30px;
+        }
+        
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            color: #f7941d;
+        }
+        
+        /* Breadcrumb */
+        .breadcrumb {
+            padding: 20px 5%;
+            background-color: #f9f9f9;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb a {
+            color: #f7941d;
+            text-decoration: none;
+        }
+        
+        .breadcrumb span {
+            margin: 0 5px;
+            color: #999;
+        }
+        
+        /* Page Header */
+        .page-header {
+            text-align: center;
+            padding: 50px 5% 30px;
+        }
+        
+        .page-title {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+        }
+        
+        /* Product Category Section */
+        .product-category {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 5% 50px;
+        }
+        
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .category-card {
+            border: 1px solid #eee;
+            border-radius: 5px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .category-image {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .category-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .category-card:hover .category-image img {
+            transform: scale(1.05);
+        }
+        
+        .category-info {
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .category-name {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .product-count {
+            color: #777;
+            font-size: 0.9rem;
+        }
+        
+        /* Product Grid */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .product-card {
+            border: 1px solid #eee;
+            border-radius: 5px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .product-image {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .product-card:hover .product-image img {
+            transform: scale(1.05);
+        }
+        
+        .product-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #f7941d;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .product-info {
+            padding: 15px;
+        }
+        
+        .product-title {
+            font-size: 1rem;
+            margin-bottom: 10px;
+            height: 40px;
+            overflow: hidden;
+        }
+        
+        .product-price {
+            font-weight: 700;
+            color: #f7941d;
+        }
+        
+        .original-price {
+            text-decoration: line-through;
+            color: #999;
+            font-size: 0.9rem;
+            margin-left: 5px;
+        }
+        
+        .add-to-cart {
+            display: block;
+            width: 100%;
+            background-color: #f7941d;
+            color: white;
+            border: none;
+            padding: 8px;
+            margin-top: 15px;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .add-to-cart:hover {
+            background-color: #e07e0c;
+        }
+        
+        /* Sidebar dan Filter */
+        .product-container {
+            display: flex;
+            max-width: 1200px;
+            margin: 30px auto 50px;
+            padding: 0 5%;
+            gap: 40px;
+        }
+        
+        .sidebar {
+            flex: 0 0 250px;
+        }
+        
+        .widget {
+            margin-bottom: 30px;
+            border: 1px solid #eee;
+            border-radius: 5px;
+            padding: 15px;
+        }
+        
+        .widget-title {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .widget-list {
+            list-style: none;
+        }
+        
+        .widget-list li {
+            margin-bottom: 8px;
+        }
+        
+        .widget-list a {
+            color: #555;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .widget-list a:hover {
+            color: #f7941d;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: #222;
+            color: white;
+            padding: 50px 5% 20px;
+        }
+        
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+        }
+        
+        .footer-col h3 {
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+        
+        .footer-col ul {
+            list-style: none;
+        }
+        
+        .footer-col ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-col ul li a {
+            color: #bbb;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-col ul li a:hover {
+            color: white;
+        }
+        
+        .copyright {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #444;
+            color: #bbb;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+            }
+            
+            nav ul {
+                margin-top: 20px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            nav ul li {
+                margin: 0 10px 10px;
+            }
+            
+            .product-container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                flex: 1;
+                order: 2;
+                margin-top: 30px;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <img src="logo2.png" alt="Sekaput Adventure">
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="#">Tours</a></li>
+                    <li><a href="katalog_produk.html">Sewa</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Gallery</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <a href="#">Home</a>
+        <span>/</span>
+        <span>Produk</span>
+    </div>
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <h1 class="page-title">Produk Kami</h1>
+        <p>Temukan peralatan pendakian dan perlengkapan outdoor berkualitas untuk petualangan Anda</p>
+    </div>
+
+    <!-- Product Category Section -->
+    <div class="product-category">
+        <h2>Kategori Produk</h2>
+        <div class="category-grid">
+            <a href="#" class="category-card">
+                <div class="category-image">
+                    <img src="gambar2.png" alt="Sepatu Gunung">
+                </div>
+                <div class="category-info">
+                    <h3 class="category-name">Sepatu Gunung</h3>
+                    <p class="product-count">12 Produk</p>
+                </div>
+            </a>
+            
+            <a href="#" class="category-card">
+                <div class="category-image">
+                    <img src="gambar2.png" alt="Tas Gunung">
+                </div>
+                <div class="category-info">
+                    <h3 class="category-name">Tas Gunung</h3>
+                    <p class="product-count">8 Produk</p>
+                </div>
+            </a>
+            
+            <a href="#" class="category-card">
+                <div class="category-image">
+                    <img src="gambar2.png" alt="Jaket Gunung">
+                </div>
+                <div class="category-info">
+                    <h3 class="category-name">Jaket Gunung</h3>
+                    <p class="product-count">10 Produk</p>
+                </div>
+            </a>
+            
+            <a href="#" class="category-card">
+                <div class="category-image">
+                    <img src="gambar2.png" alt="Perlengkapan Camping">
+                </div>
+                <div class="category-info">
+                    <h3 class="category-name">Perlengkapan Camping</h3>
+                    <p class="product-count">15 Produk</p>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- Product Container -->
+    <div class="product-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="widget">
+                <h3 class="widget-title">Kategori</h3>
+                <ul class="widget-list">
+                    <li><a href="#">Semua Produk</a></li>
+                    <li><a href="#">Sepatu Gunung</a></li>
+                    <li><a href="#">Tas Gunung</a></li>
+                    <li><a href="#">Jaket Gunung</a></li>
+                    <li><a href="#">Perlengkapan Camping</a></li>
+                    <li><a href="#">Aksesoris Pendakian</a></li>
+                </ul>
+            </div>
+            
+            <div class="widget">
+                <h3 class="widget-title">Filter Harga</h3>
+                <div style="padding: 10px 0;">
+                    <input type="range" min="0" max="5000000" step="100000" style="width: 100%; margin-bottom: 10px;">
+                    <div style="display: flex; justify-content: space-between;">
+                        <span>Rp 0</span>
+                        <span>Rp 5.000.000</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="widget">
+                <h3 class="widget-title">Merek</h3>
+                <ul class="widget-list">
+                    <li><a href="#">Hi-Tec</a></li>
+                    <li><a href="#">Eiger</a></li>
+                    <li><a href="#">Consina</a></li>
+                    <li><a href="#">The North Face</a></li>
+                    <li><a href="#">Columbia</a></li>
+                </ul>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main style="flex: 1;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <p>Menampilkan 1-12 dari 25 produk</p>
+                <select style="padding: 5px 10px; border: 1px solid #ddd; border-radius: 3px;">
+                    <option>Urutkan berdasarkan: Default</option>
+                    <option>Harga: Rendah ke Tinggi</option>
+                    <option>Harga: Tinggi ke Rendah</option>
+                    <option>Penilaian Tertinggi</option>
+                    <option>Produk Terbaru</option>
+                </select>
+            </div>
+            
+            <div class="product-grid">
+                <!-- Product 1 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="gambar1.png" alt="Sepatu Gunung Hi-Tec Altitude">
+                        <span class="product-badge">Terlaris</span>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Sepatu Gunung Hi-Tec Altitude</h3>
+                        <div class="product-price">Rp 1.250.000</div>
+                        <button class="add-to-cart">Tambah ke Keranjang</button>
+                    </div>
+                </div>
+                
+                <!-- Product 2 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="gambar1.png" alt="Tas Gunung Eiger">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Tas Gunung Eiger 50L</h3>
+                        <div class="product-price">Rp 1.800.000</div>
+                        <button class="add-to-cart">Tambah ke Keranjang</button>
+                    </div>
+                </div>
+                
+                <!-- Product 3 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="gambar1.png" alt="Jaket The North Face">
+                        <span class="product-badge">New</span>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Jaket The North Face Waterproof</h3>
+                        <div class="product-price">Rp 2.500.000 <span class="original-price">Rp 3.000.000</span></div>
+                        <button class="add-to-cart">Tambah ke Keranjang</button>
+                    </div>
+                </div>
+                
+                <!-- Product 4 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="gambar1.png" alt="Tenda Consina">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Tenda Consina 4 Orang</h3>
+                        <div class="product-price">Rp 1.750.000</div>
+                        <button class="add-to-cart">Tambah ke Keranjang</button>
+                    </div>
+                </div>
+                
+                <!-- Product 5 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="gambar1.png" alt="Sepatu Eiger">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Sepatu Gunung Eiger</h3>
+                        <div class="product-price">Rp 1.100.000</div>
+                        <button class="add-to-cart">Tambah ke Keranjang</button>
+                    </div>
+                </div>
+                
+                <!-- Product 6 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="gambar1.png" alt="Sleeping Bag">
+                        <span class="product-badge">Sale</span>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Sleeping Bag -10°C</h3>
+                        <div class="product-price">Rp 850.000 <span class="original-price">Rp 1.200.000</span></div>
+                        <button class="add-to-cart">Tambah ke Keranjang</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Pagination -->
+            <div style="margin-top: 50px; text-align: center;">
+                <a href="#" style="display: inline-block; padding: 8px 15px; border: 1px solid #ddd; margin: 0 5px; text-decoration: none; color: #333;">&laquo;</a>
+                <a href="#" style="display: inline-block; padding: 8px 15px; border: 1px solid #ddd; margin: 0 5px; text-decoration: none; color: #333; background-color: #f7941d; color: white;">1</a>
+                <a href="#" style="display: inline-block; padding: 8px 15px; border: 1px solid #ddd; margin: 0 5px; text-decoration: none; color: #333;">2</a>
+                <a href="#" style="display: inline-block; padding: 8px 15px; border: 1px solid #ddd; margin: 0 5px; text-decoration: none; color: #333;">3</a>
+                <a href="#" style="display: inline-block; padding: 8px 15px; border: 1px solid #ddd; margin: 0 5px; text-decoration: none; color: #333;">&raquo;</a>
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-col">
+                <h3>Sekaput Adventure</h3>
+                <p>Professional adventour operator in Belitung, Bangka Belitung providing unforgettable travel experiences.</p>
+            </div>
+            <div class="footer-col">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Tours</a></li>
+                    <li><a href="#">Outdoor Gear Rent</a></li>
+                    <li><a href="#">Gallery</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Contact Us</h3>
+                <ul>
+                    <li><i class="fas fa-map-marker-alt"></i> Jl. Sudirmian No. 1, Belitung</li>
+                    <li><i class="fas fa-phone"></i> 081186431346465</li>
+                    <li><i class="fas fa-envelope"></i> info@sekaputadventure.com</li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2025 Sekaput Adventure. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // JavaScript untuk fungsionalitas halaman
+        document.addEventListener('DOMContentLoaded', function() {
+            // Header scroll effect
+            window.addEventListener('scroll', function() {
+                const header = document.querySelector('header');
+                if (window.scrollY > 100) {
+                    header.style.background = 'rgba(255, 255, 255, 0.95)';
+                } else {
+                    header.style.background = 'rgba(255, 255, 255, 0.9)';
+                }
+            });
+            
+            // Add to cart functionality
+            const addToCartButtons = document.querySelectorAll('.add-to-cart');
+            addToCartButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const productTitle = this.closest('.product-card').querySelector('.product-title').textContent;
+                    alert(productTitle + ' telah ditambahkan ke keranjang');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
